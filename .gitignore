@@ -1,0 +1,4 @@
+node_modules
+.env
+
+# for nano saving , nano => files names => to save ctrl+o , enter , cntrl x
