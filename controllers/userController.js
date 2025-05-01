@@ -37,8 +37,7 @@ const updateUserController = async (req, res) => {
         //find user
 
         const user = await userModel.findById({ _id: req.user.id })
-        
-
+    
         //validation
         if (!user) {
             return res.status(404).send({
@@ -47,16 +46,12 @@ const updateUserController = async (req, res) => {
             })
         }
         //update
-
         const { userName, address, phone } = req.body
         if (userName) user.userName = userName
         if (address) user.address = address
         if (phone) user.phone = phone
 
-
-
         //re-save user
-      
         await user.save()
         
         res.status(200).send({
@@ -73,7 +68,6 @@ const updateUserController = async (req, res) => {
         })
     }
 };
-
 //upadte passowrd
  const pwUpdateUserController=async(req,res)=>{
   try{
@@ -84,7 +78,6 @@ const updateUserController = async (req, res) => {
             message: "Missing field"
         });
     }
-    
     const user = await userModel.findById({ _id: req.user.id })
     if(!user){
         return res.status(404).send({
@@ -92,8 +85,6 @@ const updateUserController = async (req, res) => {
             message: 'user not found'
         })
     }
-
-    
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).send({
@@ -101,12 +92,10 @@ const updateUserController = async (req, res) => {
         message: "Current password is incorrect",
       });
     }
-
     const hashedNewPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedNewPassword;
     await user.save();
 
-    
     res.status(200).send({
         success: true,
         message: 'User password Updated successfully'
@@ -118,8 +107,30 @@ const updateUserController = async (req, res) => {
         error:err.message
     });
   }
-
-
  }
 
-module.exports = { getUserController, updateUserController,pwUpdateUserController };
+ //DELETe PROFILE ACCOUNT
+ const deleteProfileController=async(req,res)=>{
+try{
+const id=req.params;
+await userModel.findByIdAndDelete(req.params.id)
+return res.status(200).send({
+    success:true,
+    messsage:"your account has been deleted"
+})
+}catch(error){
+console.log(error)
+res.status(500).send({
+    success:false,
+    message:'Error in Delete Profile API',
+    error
+})
+}
+ };
+
+module.exports = { 
+     getUserController,
+     updateUserController,
+     pwUpdateUserController,
+     deleteProfileController
+     };
