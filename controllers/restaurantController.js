@@ -53,6 +53,67 @@ res.status(500).send({
     error
 })
  }
+};
+
+
+//GET ALL RESTRO
+
+const getAllRestaurantController =async(req,res)=>{
+try{
+const restaurants = await restaurantModel.find({})
+if(!restaurants){
+    return res.status(404).send({
+        success:false,
+        message:'No restaurant available'
+    })
+}
+res.status(200).send({
+    success:true,
+    totalCount:restaurants.length,
+    restaurants
+})
+}
+catch(error){
+console.log(error)
+res.status(500).send({
+    success:false,
+    messsage:'Error in GET  all restro API',
+    error
+})
+
+}
 }
 
-module.exports={createRestaurantController};
+//get restro by id 
+const getRestaurantByIdController =async(req,res)=>{
+try{
+const restaurantId=req.params.id;
+
+if(!restaurantId){
+    return res.status(400).send({
+success:false,
+message:'no restro found',
+    });
+}
+const restaurant = await restaurantModel.findById(restaurantId)
+if(!restaurant){
+    return res.status(404).send({
+        success:false,
+        message:'no restro found'
+    })
+}
+res.status(200).send({
+    success:true,
+    restaurant,
+});
+}catch(error){
+    console.log(error)
+    res.status(500).send({
+        success:false,
+        message:'Error in get restro by id api',
+        error
+    })
+}
+}
+
+module.exports={createRestaurantController,getAllRestaurantController,getRestaurantByIdController};
