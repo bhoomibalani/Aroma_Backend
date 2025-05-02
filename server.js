@@ -28,6 +28,7 @@ app.use(morgan('dev'))
 app.use('/api/v1/test',require('./routes/testRoutes'));
 app.use('/api/v1/auth',require('./routes/authRoutes'));
 app.use('/api/v1/user',require('./routes/userRoutes'));
+app.use('/api/v1/restaurant',require('./routes/restaurantRoute'));
 
 app.get('/',(req,res)=>{
     return res.status(200).send("<p>welcone</p>")
@@ -40,8 +41,3 @@ app.listen(PORT,()=>{
     console.log(`sever running on ${PORT}`);
 } )
 
-
-// login
-// update
-// getUser
-// regster
