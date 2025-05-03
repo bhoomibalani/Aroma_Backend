@@ -116,4 +116,43 @@ res.status(200).send({
 }
 }
 
-module.exports={createRestaurantController,getAllRestaurantController,getRestaurantByIdController};
+//delete restro
+const deleteRestaurantController=async(req,res)=>{
+    try{
+        const restaurantId=req.params.id
+        if(!restaurantId){
+            return res.status(404).send({
+                success:false,
+                message:'Please Provide Restaurant id'
+            })
+
+        }
+        if(!restaurantId){
+            return res.status(404).send({
+                sucess:false,
+                message:'No restaurant found or provide restro id '
+            })
+
+        }
+        await restaurantModel.findByIdAndDelete(restaurantId) 
+        res.status(200).send({
+            success:true,
+            message:'restro delted successfully'
+        })
+
+    }catch(error){
+        console.log(error)
+        res.status(500).send({
+            success:false,
+            message:'Error in delete restro api'
+        })
+    }
+
+}
+
+module.exports={
+    createRestaurantController,
+    getAllRestaurantController,
+    getRestaurantByIdController,
+    deleteRestaurantController,
+};
