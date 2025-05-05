@@ -1,5 +1,5 @@
 const foodModel = require("../models/foodModel");
-
+const orderModel = require("../models/orderModel");
 //create food
 const createFoodContoller=async(req,res)=>{
     try{
@@ -233,6 +233,56 @@ res.status(200).send({
         error
     })
 }
-}
+};
 
-module.exports={createFoodContoller,getAllFoodController,getSingleFoodController,getFoodByRestroController,updateFoodController,deleteFoodController};
+//place order
+
+
+const placeOrderController=async(req,res)=>{
+try{
+    const {cart,payment}=req.body
+    if(!cart){
+        return res.status(500).send({
+            success:false,
+            message:'please add cart or payment mathod'
+        })
+    }
+    let total =0
+    //cal
+    cart.map((i)=>{
+        total=total +i.price
+
+    })
+
+    const newOrder= new orderModel({
+        foods:cart,
+        payment:total,
+        buyer:req.body.id
+    });
+
+    await newOrder.save()
+
+res.status(201).send({
+    success:true,
+    message:'order placed successfully',
+    newOrder,
+});
+}catch(error){
+    console.log(error)
+    res.status(500).send({
+        success:false,
+        message:'error in place order api',
+        error
+    })
+}
+};
+
+module.exports={
+    createFoodContoller,
+    getAllFoodController,
+    getSingleFoodController,
+    getFoodByRestroController,
+    updateFoodController,
+    deleteFoodController,
+    placeOrderController
+};
