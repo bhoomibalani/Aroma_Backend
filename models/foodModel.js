@@ -1,0 +1,51 @@
+const mongoose = require('mongoose');
+
+//schema 
+const foodSchema = new mongoose.Schema(
+    {
+        title: {
+            type: String,
+            require: [true, 'Food Title is required']
+        },
+        description: {
+            type: String,
+            required: [true, 'food description in required']
+        },
+        price: {
+            type: Number,
+            required: [true, 'food price is required']
+        },
+        imageUrl: {
+            type: String,
+            default: "data:image/jpeg;base64,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"
+        },
+        foodTags: {
+            type: String,
+        },
+        category: {
+            type: String,
+        },
+        code: {
+            type: String
+        },
+        isAvailable: {
+            type: Boolean,
+            default: true,
+        },
+        restaurant: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Restaurant'
+        },
+        rating: {
+            type: Number,
+            default: 5,
+            min: 1,
+            max: 5
+        },
+        ratingCount: {
+            type: String,
+        },
+    }, { timestamps: true });
+
+//export
+module.exports = mongoose.model('Foods', foodSchema); 

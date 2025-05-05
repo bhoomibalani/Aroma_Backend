@@ -1,7 +1,7 @@
 const express=require('express');
 
 const authMiddleware = require("../middlewares/authMiddleware");
-const { createCatController,getAllCatController, updateCatController, deleteCatC68168593f7e885ef7c8912a3ontroller } = require('../controllers/categoryController');
+const { createCatController,getAllCatController, updateCatController, deleteCatController } = require('../controllers/categoryController');
 
 const router=express.Router()
 
